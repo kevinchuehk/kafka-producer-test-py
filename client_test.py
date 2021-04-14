@@ -1,5 +1,6 @@
 from confluent_kafka import Producer
 import sys
+import json
 
 if __name__ == '__main__':
     producer = Producer({ 'bootstrap.servers': 'localhost:9092'})
@@ -12,6 +13,8 @@ if __name__ == '__main__':
             sys.stderr.write('%% Message delivered to %s [%d] @ %d\n' %
                             (msg.topic(), msg.partition(), msg.offset()))
 
-    topic = 'my-topic'
-    producer.produce(topic, 'hello_world', callback=delivery_callback)
+    topic = 'to-motechat'
+    value = { 'topic' : 'echo', 'name': 'hello', 'data': 'hello_world'}
+    dump = json.dumps(value).encode('utf-8')
+    producer.produce(topic, dump, callback=delivery_callback)
     producer.flush()
