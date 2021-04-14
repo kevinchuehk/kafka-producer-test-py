@@ -1,4 +1,5 @@
 from confluent_kafka import Producer
+import sys
 
 if __name__ == '__main__':
     producer = Producer({ 'bootstrap.servers': 'localhost:9092'})
